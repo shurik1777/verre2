@@ -9,12 +9,12 @@ from .models import Cocktail
 def home_page(request):
     # Получаем 5 случайных коктейлей, не зависимо от авторизации
     recipes = Cocktail.objects.order_by('?')[:5]
-    return render(request, 'home.html', {'cocktail': recipes})
+    return render(request, 'cocktail/home.html', {'cocktail': recipes})
 
 
 def recipe_detail(request, slug):
     recipe = Cocktail.objects.get(slug=slug)
-    return render(request, 'recipe_detail.html', {'cocktail': recipe})
+    return render(request, 'cocktail/recipe_detail.html', {'cocktail': recipe})
 
 
 def create_category(request):
