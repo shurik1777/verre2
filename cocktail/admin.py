@@ -87,10 +87,19 @@ class CategoryCocktailTwoModelInline(admin.TabularInline):
 
 @admin.register(Cocktail)
 class CocktailAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('name',)}
-    list_display = ['title', 'description', 'preparation_steps', 'preparation_time']
+    prepopulated_fields = {'slug': ('title',)}
+    list_display = ['title', 'description', 'preparation_time','preparation_steps', 'preparation_time']
     search_fields = ['title', 'author']
     list_filter = ['title', 'author']
+    fields = [
+        "title",
+        "slug",
+        "description",
+        "preparation_steps",
+        "preparation_time",
+        "image",
+        "author",
+    ]
 
     def image(self, obj):
         if obj.image:
@@ -99,13 +108,6 @@ class CocktailAdmin(admin.ModelAdmin):
             return 'No image'
 
     image.allow_tags = True
-    fields = [
-        "title",
-        "slug",
-        "description",
-        "image",
-        'date_register',
-    ]
     # Отображение "categories" через "through"
     inlines = (CategoryCocktailModelInline, CategoryCocktailTwoModelInline,)
 
