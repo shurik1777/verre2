@@ -10,11 +10,44 @@
     <link rel="icon" href="{% static 'images/favicon.png' %}">
 </head>
 <body class="container">
-<ul class="list-group">
-    <li class="list-group-item">
-        USER: {{ user }}
-    </li>
-</ul>
+<div class="inline_format">
+    <div>
+        <h1>Verre</h1>
+        <p class="txt_logo">Рецепты алкогольных и безалкогольных коктейлей</p>
+    </div>
+
+    <div class="cont_mainnn">
+        <div>
+            {{ user }}
+        </div>
+        <div>
+            {% if user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Log out</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a> |
+                <a href="{% url 'register' %}">Register</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div>
+    {% if not user.is_authenticated %}
+        <p class="txt_log">Наслаждайтесь готовыми рецептами и делитесь своими (нужна регистрация)
+            {% else %}
+        <div class="header_main">
+            <ul class="head_main_ull">
+                <li><a class="non_line" href="{{ add_category }}">Создать новую категорию</a></li>
+                <li><a class="non_line" href="{{ add_recipe }}">Добавить новый рецепт</a></li>
+                <li><a class="non_line" href="{{ add_ingredient }}">Добавить ингридиент</a></li>
+                <li><a class="non_line" href="{{ recipe_detail }}">Детально</a></li>
+            </ul>
+        </div>
+
+    {% endif %}
+</div>
 {% block content %}
 {% endblock %}
 <script src="{% static "js/bootstrap.bundle.js" %}"></script>
