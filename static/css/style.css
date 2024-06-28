@@ -1,0 +1,7 @@
+.inline_format{
+    display: flex;
+}
+
+.image_main{
+    max-height: 150px;
+}
