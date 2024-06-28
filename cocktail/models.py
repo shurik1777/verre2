@@ -38,9 +38,6 @@ class Ingredient(m.Model):
     def __str__(self):
         return f"Название: {self.name}, Описание: {self.description}"
 
-    def get_absolute_url(self):
-        return reverse("catalog:ingredient", kwargs={"product_slug": self.slug})
-
     def display_id(self):
         return f"{self.id:05}"
 
@@ -65,9 +62,6 @@ class Cocktail(m.Model):
 
     def __str__(self):
         return f"Название: {self.title}, Описание: {self.description}"
-
-    def get_absolute_url(self):
-        return reverse("catalog:cocktail", kwargs={"product_slug": self.slug})
 
     def display_id(self):
         return f"{self.id:05}"

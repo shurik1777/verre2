@@ -12,9 +12,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    # path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('users/', include('users.urls')),
-    path('in/', include('cocktail.urls', namespace='cocktail')),
+    path('', include('cocktail.urls', namespace='cocktail')),
 ]
 
 if settings.DEBUG:

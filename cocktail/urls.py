@@ -7,11 +7,11 @@ from django.conf.urls.static import static
 app_name = 'cocktail'
 
 urlpatterns = [
+    path('', views.home_page, name='home'),
     # path('categories/add/', AddCategoryView.as_view(), name='add_category'),
     # path('ingredients/add/', AddIngredientView.as_view(), name='add_ingredient'),
     # path('recipes/add/', AddRecipeView.as_view(), name='add_recipe'),
-    # path('', views.home, name='home'),
-    # path('recipe/<slug:recipe_slug>/', views.recipe_detail, name='recipe_detail'),
+    path('recipe/<slug:recipe_slug>/', views.recipe_detail, name='recipe_detail'),
 ]
 
 if settings.DEBUG:
