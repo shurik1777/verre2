@@ -54,6 +54,6 @@ class AddCocktailView(View):
         if form.is_valid():
             category = form.save(commit=False)
             category.save()
-            messages.success(request, 'Ингредиент успешно создан! 🎉')
+            messages.success(request, 'Коктейль успешно создан! 🎉')
             return render(request, 'cocktail/add_category.html', {'form': form})
         return render(request, 'cocktail/add_category.html', {'form': form})
