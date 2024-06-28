@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import CategoryCocktail, CategoryIngredient
+from .models import CategoryCocktail, CategoryIngredient, Ingredient
 
 admin.site.site_header = 'Verre - сайт рецептов алкогольных напитков'
 admin.site.site_title = 'Администрирование сайта'
@@ -32,3 +32,36 @@ class CategoryIngredientAdmin(admin.ModelAdmin):
         "name",
         "slug",
     ]
+
+
+class CategoryModelInline(admin.TabularInline):
+    model = Ingredient.categories.through
+    extra = 0  # если указать 1, то в админке сразу подтягивается название 1‑го ингредиента(если он есть)
+    verbose_name = "Ингридиент"
+    verbose_name_plural = "Ингридиенты"
+    can_delete = False
+    can_change = False
+
+
+@admin.register(Ingredient)
+class IngredientAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("name",)}
+    list_display = ["name", "description", "image", "slug"]
+    search_fields = ["name", "description"]
+    list_filter = ["name", "description"]
+
+    def image(self, obj):
+        if obj.image:
+            return mark_safe('<img src="{}" width="100" height="100" />'.format(obj.photo.url))
+        else:
+            return 'No image'
+
+    image.allow_tags = True
+    fields = [
+        "name",
+        "slug",
+        "description",
+        "image",
+    ]
+    # Отображение "categories" через "through"
+    inlines = (CategoryModelInline,)
