@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import CategoryCocktail, CategoryIngredient, Ingredient
+from .models import CategoryCocktail, CategoryIngredient, Ingredient, Cocktail
 
 admin.site.site_header = 'Verre - сайт рецептов алкогольных напитков'
 admin.site.site_title = 'Администрирование сайта'
@@ -65,3 +65,48 @@ class IngredientAdmin(admin.ModelAdmin):
     ]
     # Отображение "categories" через "through"
     inlines = (CategoryModelInline,)
+
+
+class CategoryCocktailModelInline(admin.TabularInline):
+    model = Cocktail.categories.through
+    extra = 0
+    verbose_name = "Ингридиент"
+    verbose_name_plural = "Ингридиенты"
+    can_delete = False
+    can_change = False
+
+
+class CategoryCocktailTwoModelInline(admin.TabularInline):
+    model = Cocktail.ingredients.through
+    extra = 0
+    verbose_name = "Ингридиент"
+    verbose_name_plural = "Ингридиенты"
+    can_delete = False
+    can_change = False
+
+
+@admin.register(Cocktail)
+class CocktailAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('name',)}
+    list_display = ['title', 'description', 'preparation_steps', 'preparation_time']
+    search_fields = ['title', 'author']
+    list_filter = ['title', 'author']
+
+    def image(self, obj):
+        if obj.image:
+            return mark_safe('<img src="{}" width="100" height="100" />'.format(obj.photo.url))
+        else:
+            return 'No image'
+
+    image.allow_tags = True
+    fields = [
+        "title",
+        "slug",
+        "description",
+        "image",
+        'date_register',
+    ]
+    # Отображение "categories" через "through"
+    inlines = (CategoryCocktailModelInline, CategoryCocktailTwoModelInline,)
+
+

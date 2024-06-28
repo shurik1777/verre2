@@ -49,28 +49,31 @@ class Ingredient(m.Model):
         verbose_name = 'Ингридиент'
         verbose_name_plural = 'Ингридиенты'
         ordering = ("id",)
-#
-#
-# class Cocktail(m.Model):
-#     title = m.CharField(max_length=128, unique=True, verbose_name='Название')
-#     slug = m.SlugField(max_length=200, unique=True, blank=True, null=True, verbose_name='URL')
-#     description = m.TextField(verbose_name='Описание')
-#     preparation_steps = m.TextField(verbose_name='Шаги приготовления')
-#     preparation_time = m.PositiveIntegerField(verbose_name='Время приготовления (в минутах)')
-#     image = m.ImageField(upload_to='recipe_images', blank=True, null=True, verbose_name='Изображение')
-#     author = m.CharField(max_length=128, verbose_name='Автор')
-#
-#     def __str__(self):
-#         return f"Название: {self.title}, Описание: {self.description}"
-#
-#     def get_absolute_url(self):
-#         return reverse("catalog:cocktail", kwargs={"product_slug": self.slug})
-#
-#     def display_id(self):
-#         return f"{self.id:05}"
-#
-#     class Meta:
-#         db_table = 'cocktail'
-#         verbose_name = 'Рецепт коктейля'
-#         verbose_name_plural = 'Рецепты коктейлей'
-#         ordering = ("id",)
+
+
+class Cocktail(m.Model):
+    title = m.CharField(max_length=128, unique=True, verbose_name='Название')
+    slug = m.SlugField(max_length=200, unique=True, blank=True, null=True, verbose_name='URL')
+    description = m.TextField(verbose_name='Описание')
+    preparation_steps = m.TextField(verbose_name='Шаги приготовления')
+    preparation_time = m.PositiveIntegerField(verbose_name='Время приготовления (в минутах)')
+    image = m.ImageField(upload_to='recipe_images', blank=True, null=True, verbose_name='Изображение')
+    author = m.CharField(max_length=128, verbose_name='Автор')
+    categories = m.ManyToManyField(CategoryCocktail, verbose_name='Категория коктейля')
+    ingredients = m.ManyToManyField(Ingredient, verbose_name='Ингридиенты')
+    date_register = m.DateField(auto_now=True, verbose_name='Дата регистрации')
+
+    def __str__(self):
+        return f"Название: {self.title}, Описание: {self.description}"
+
+    def get_absolute_url(self):
+        return reverse("catalog:cocktail", kwargs={"product_slug": self.slug})
+
+    def display_id(self):
+        return f"{self.id:05}"
+
+    class Meta:
+        db_table = 'cocktail'
+        verbose_name = 'Рецепт коктейля'
+        verbose_name_plural = 'Рецепты коктейлей'
+        ordering = ("id",)
