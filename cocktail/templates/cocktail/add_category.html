@@ -7,4 +7,11 @@
     {{ form.as_p }}
     <button type="submit">Добавить</button>
 </form>
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible">
+        {{ message }}
+    </div>
+    {% endfor %}
+{% endif %}
 {% endblock %}

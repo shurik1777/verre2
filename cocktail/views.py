@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
 from django.views import View
+from django.shortcuts import render
+from django.contrib import messages
 
-from .forms import IngredientForm, CocktailForm
+from .forms import IngredientForm, CocktailForm, CategoryIngredientForm
 from .models import Cocktail
 
 
@@ -16,6 +17,18 @@ def recipe_detail(request, slug):
     return render(request, 'recipe_detail.html', {'cocktail': recipe})
 
 
+def create_category(request):
+    if request.method == 'POST':
+        form = CategoryIngredientForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Категория успешно создана! 🎉')
+            return render(request, 'cocktail/add_category.html', {'form': form})
+    else:
+        form = CategoryIngredientForm()
+    return render(request, 'cocktail/add_category.html', {'form': form})
+
+
 class AddIngredientView(View):
     def get(self, request):
         form = IngredientForm()
@@ -26,7 +39,8 @@ class AddIngredientView(View):
         if form.is_valid():
             ingredient = form.save(commit=False)
             ingredient.save()
-            return redirect('recipes:ingredients_list')
+            messages.success(request, 'Ингредиент успешно создан! 🎉')
+            return render(request, 'cocktail/add_ingredient.html', {'form': form})
         return render(request, 'cocktail/add_ingredient.html', {'form': form})
 
 
@@ -40,5 +54,6 @@ class AddCocktailView(View):
         if form.is_valid():
             category = form.save(commit=False)
             category.save()
-            return redirect('recipes:categories_list')
+            messages.success(request, 'Ингредиент успешно создан! 🎉')
+            return render(request, 'cocktail/add_category.html', {'form': form})
         return render(request, 'cocktail/add_category.html', {'form': form})
