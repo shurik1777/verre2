@@ -68,3 +68,9 @@ a {
 .non_line {
     text-decoration: none;
 }
+
+.txt_log{
+    text-align: right;
+    font-size: 18px;
+    color: #d41919;
+}

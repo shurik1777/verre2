@@ -33,21 +33,7 @@
         </div>
     </div>
 </div>
-<div>
-    {% if not user.is_authenticated %}
-        <p class="txt_log">Наслаждайтесь готовыми рецептами и делитесь своими (нужна регистрация)
-            {% else %}
-        <div class="header_main">
-            <ul class="head_main_ull">
-                <li><a class="non_line" href="{{ add_category }}">Создать новую категорию</a></li>
-                <li><a class="non_line" href="{{ add_recipe }}">Добавить новый рецепт</a></li>
-                <li><a class="non_line" href="{{ add_ingredient }}">Добавить ингридиент</a></li>
-                <li><a class="non_line" href="{{ recipe_detail }}">Детально</a></li>
-            </ul>
-        </div>
 
-    {% endif %}
-</div>
 {% block content %}
 {% endblock %}
 <script src="{% static "js/bootstrap.bundle.js" %}"></script>

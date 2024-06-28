@@ -8,7 +8,7 @@ app_name = 'cocktail'
 
 urlpatterns = [
     path('', views.home_page, name='home'),
-    path('categories/add/', views.create_category, name='add_category'),
+    path('add_category/', views.add_category, name='add_category'),
     path('ingredients/add/', AddIngredientView.as_view(), name='add_ingredient'),
     path('recipes/add/', AddCocktailView.as_view(), name='add_recipe'),
     path('recipe/<slug:recipe_slug>/', views.recipe_detail, name='recipe_detail'),

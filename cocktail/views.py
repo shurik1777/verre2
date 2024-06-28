@@ -17,7 +17,7 @@ def recipe_detail(request, slug):
     return render(request, 'cocktail/recipe_detail.html', {'cocktail': recipe})
 
 
-def create_category(request):
+def add_category(request):
     if request.method == 'POST':
         form = CategoryIngredientForm(request.POST, request.FILES)
         if form.is_valid():
