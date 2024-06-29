@@ -65,6 +65,10 @@ def all_cocktails(request):
     return render(request, "cocktail/all_cocktails.html", context)
 
 
-def show_cocktail(request, cocktail_slug):
-    cocktail = Cocktail.objects.get(slug=cocktail_slug)
-    return render(request, 'cocktail/cocktail_detail.html', {'cocktail': cocktail})
+def cocktail_detail(request, slug):
+    cocktail = get_object_or_404(Cocktail, slug=slug)
+
+    context = {
+        'cocktail': cocktail
+    }
+    return render(request, 'cocktails/detail.html', context)

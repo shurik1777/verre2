@@ -1,11 +1,24 @@
 {% extends 'base.html' %}
 {% block title %}{{ cocktail.title }}{% endblock %}
 {% block content %}
-    <h1>{{ cocktail.title }}</h1>
-    <p>{{ cocktail.description }}</p>
-    <p>{{ cocktail.preparation_steps }}</p>
-    <p>{{ cocktail.preparation_time }}</p>
-    {% if cocktail.image %}
+  <div class="cocktail-detail">
+        <h1>{{ cocktail.title }}</h1>
         <img src="{{ cocktail.image.url }}" alt="{{ cocktail.title }}">
-    {% endif %}
+        <p>{{ cocktail.description }}</p>
+        <h2>Ингредиенты:</h2>
+        <ul>
+            {% for ingredient in cocktail.ingredients.all %}
+                <li>{{ ingredient.name }}</li>
+            {% endfor %}
+        </ul>
+        <h2>Шаги приготовления:</h2>
+        <ol>
+            {% for step in cocktail.preparation_steps.split('\n') %}
+                <li>{{ step }}</li>
+            {% endfor %}
+        </ol>
+        <p>Автор: {{ cocktail.author }}</p>
+        <p>Время приготовления: {{ cocktail.preparation_time }} минут</p>
+        <p>Дата регистрации: {{ cocktail.date_register }}</p>
+    </div>
 {% endblock %}

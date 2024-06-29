@@ -13,7 +13,7 @@ urlpatterns = [
     path('add_receipt/', AddCocktailView.as_view(), name='add_recipe'),
     path('all_cocktails/', views.all_cocktails, name='all_cocktails'),
     path('cocktails/<slug:cocktail_slug>/', views.all_cocktails, name='all_cocktails'),
-    path('cocktails/<slug:cocktail_slug>/', views.show_cocktail, name='show_cocktail'),
+    path('cocktails/<slug:slug>/', views.cocktail_detail, name='cocktail_detail')
 ]
 
 if settings.DEBUG:
