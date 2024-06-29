@@ -13,14 +13,5 @@
         {% empty %}
             <li>Пока рецептов нет</li>
         {% endfor %}
-{#        {% for cocktail in cocktail %}#}
-{#            <li>#}
-{#                <a href="{% url 'cocktail:all_cocktails' cocktail.slug %}">#}
-{#                    {{ cocktail.title }} , {{ cocktail.date_register }} , {{ cocktail.image }}#}
-{#                </a>#}
-{#            </li>#}
-{#        {% empty %}#}
-{#            <li>Пока рецептов нет</li>#}
-{#        {% endfor %}#}
     </ul>
 {% endblock %}

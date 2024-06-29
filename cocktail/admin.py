@@ -46,9 +46,9 @@ class CategoryModelInline(admin.TabularInline):
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
-    list_display = ["name", "description", "image", "slug"]
+    list_display = ["name", "description"]
     search_fields = ["name", "description"]
-    list_filter = ["name", "description"]
+    list_filter = ["name", "slug"]
 
     def image(self, obj):
         if obj.image:
