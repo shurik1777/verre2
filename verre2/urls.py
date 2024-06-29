@@ -6,13 +6,12 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import TemplateView
+
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('users/', include('users.urls')),
     path('', include('cocktail.urls', namespace='cocktail')),
     # path('cocktail/', include('cocktail.urls', namespace='cocktail')),
