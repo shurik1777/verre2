@@ -57,12 +57,11 @@ class AddCocktailView(View):
 
 
 def all_cocktails(request):
-    cocktail = Cocktail.objects.all()
+    cocktails = Cocktail.objects.all()
     context = {
-        'title': f'Список всех коктейлей',
-        'cocktail': cocktail
+        'cocktails': cocktails
     }
-    return render(request, "cocktail/all_cocktails.html", context)
+    return render(request, 'cocktail/all_cocktails.html', context)
 
 
 def cocktail_detail(request, slug):
@@ -71,4 +70,4 @@ def cocktail_detail(request, slug):
     context = {
         'cocktail': cocktail
     }
-    return render(request, 'cocktails/detail.html', context)
+    return render(request, 'cocktail/cocktail_detail.html', context)

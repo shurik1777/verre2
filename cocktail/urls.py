@@ -12,7 +12,6 @@ urlpatterns = [
     path('add_ingredients/', AddIngredientView.as_view(), name='add_ingredient'),
     path('add_receipt/', AddCocktailView.as_view(), name='add_recipe'),
     path('all_cocktails/', views.all_cocktails, name='all_cocktails'),
-    path('cocktails/<slug:cocktail_slug>/', views.all_cocktails, name='all_cocktails'),
     path('cocktails/<slug:slug>/', views.cocktail_detail, name='cocktail_detail')
 ]
 
