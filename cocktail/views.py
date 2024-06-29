@@ -1,5 +1,5 @@
 from django.views import View
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 
 from .forms import IngredientForm, CocktailForm, CategoryIngredientForm
@@ -57,3 +57,39 @@ class AddCocktailView(View):
             messages.success(request, 'Коктейль успешно создан! 🎉')
             return render(request, 'cocktail/add_category.html', {'form': form})
         return render(request, 'cocktail/add_category.html', {'form': form})
+
+
+def all_receipt(request):
+    cocktail = Cocktail.objects.all()
+    return render(request, "cocktail/all_receipt.html", {'cocktail': cocktail})
+
+
+def get_receipt(request):
+    if request.method == 'GET':
+        form = CocktailForm(request.GET)
+        if form.is_valid():
+            search_query = form.cleaned_data['search_query']
+            recipes = (Cocktail.objects.filter(name__icontains=search_query) | Cocktail.objects.filter(
+                description__icontains=search_query))
+            return render(request, 'cocktail/recipe_search_results.html',
+                          {'recipes': recipes, 'search_query': search_query})
+    else:
+        form = CocktailForm()
+    return render(request, "cocktail/get_receipt.html", {'form': form})
+
+
+def cocktail_detail(request, cocktail_id):
+    cocktail = get_object_or_404(Cocktail, pk=cocktail_id)
+    return render(request, 'cocktail/recipe_detail.html', {'receipt': cocktail})
+
+
+def modify_cocktail(request, cocktail_id):
+    cocktail = get_object_or_404(Cocktail, pk=cocktail_id)
+    if request.method == 'POST':
+        form = CocktailForm(request.POST, request.FILES, instance=cocktail)
+        if form.is_valid():
+            form.save()
+            return redirect('receipt_detail', receipt_id=cocktail.id)
+    else:
+        form = CocktailForm(instance=cocktail)
+    return render(request, "cocktail/add_recipe.html", {'form': form})

@@ -1,19 +1,28 @@
-{% extends "base.html" %}
-
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{% if cocktail %} {{ cocktail.name }} {% else %} Все рецепты {% endif %}{% endblock %}
 {% block content %}
-    <h2>{{ recipe.title }}</h2>
-    <p>{{ recipe.description }}</p>
-    <p>Preparation Time: {{ recipe.preparation_time }} minutes</p>
-    <p>Author: {{ recipe.author }}</p>
-    <img src="{{ recipe.image.url }}" alt="{{ recipe.title }} Image">
-    
-    <h3>Ingredients:</h3>
+
+<h1>{% if cocktail %} {{ cocktail.name }} {% else %} Все рецепты {% endif %}</h1>
+
+{% if cocktail %}
+{#    <img src="{% static 'recipe_images/' %}{{ cocktail.image.url }}" alt="{{ cocktail.name }}">#}
+    <p>{{ cocktail.description }}</p>
+    <p><strong>Ингредиенты:</strong> {{ cocktail.ingredients }}</p>
+    <p><strong>Инструкции:</strong> {{ cocktail.preparation_steps }}</p>
+{% else %}
     <ul>
-        {% for ingredient in recipe.ingredients.all %}
-            <li>{{ ingredient.ingredient.name }} - {{ ingredient.unit }}</li>
+        {% for recipe in all_recipes %}
+            <li>
+                <a href="{% url 'cocktail:cocktail_detail' cocktail_id=recipe.pk %}">
+                    {% if recipe.image %}
+                        <img src="{% static '' %}{{ recipe.image.url }}" alt="{{ recipe.name }}">
+                    {% endif %}
+                    {{ recipe.name }}
+                </a>
+            </li>
         {% endfor %}
     </ul>
-    
-    <h3>Preparation Steps:</h3>
-    <p>{{ recipe.preparation_steps }}</p>
+{% endif %}
+
 {% endblock %}
