@@ -12,11 +12,6 @@ def home_page(request):
     return render(request, 'cocktail/home.html', {'cocktail': recipes})
 
 
-def recipe_detail(request, slug):
-    recipe = Cocktail.objects.get(slug=slug)
-    return render(request, 'cocktail/recipe_detail.html', {'cocktail': recipe})
-
-
 def add_category(request):
     if request.method == 'POST':
         form = CategoryIngredientForm(request.POST, request.FILES)
@@ -45,6 +40,8 @@ class AddIngredientView(View):
 
 
 class AddCocktailView(View):
+    model = Cocktail
+
     def get(self, request):
         form = CocktailForm()
         return render(request, 'cocktail/add_category.html', {'form': form})
@@ -59,37 +56,15 @@ class AddCocktailView(View):
         return render(request, 'cocktail/add_category.html', {'form': form})
 
 
-def all_receipt(request):
+def all_cocktails(request):
     cocktail = Cocktail.objects.all()
-    return render(request, "cocktail/all_receipt.html", {'cocktail': cocktail})
+    context = {
+        'title': f'Список всех коктейлей',
+        'cocktail': cocktail
+    }
+    return render(request, "cocktail/all_cocktails.html", context)
 
 
-def get_receipt(request):
-    if request.method == 'GET':
-        form = CocktailForm(request.GET)
-        if form.is_valid():
-            search_query = form.cleaned_data['search_query']
-            recipes = (Cocktail.objects.filter(name__icontains=search_query) | Cocktail.objects.filter(
-                description__icontains=search_query))
-            return render(request, 'cocktail/recipe_search_results.html',
-                          {'recipes': recipes, 'search_query': search_query})
-    else:
-        form = CocktailForm()
-    return render(request, "cocktail/get_receipt.html", {'form': form})
-
-
-def cocktail_detail(request, cocktail_id):
-    cocktail = get_object_or_404(Cocktail, pk=cocktail_id)
-    return render(request, 'cocktail/recipe_detail.html', {'receipt': cocktail})
-
-
-def modify_cocktail(request, cocktail_id):
-    cocktail = get_object_or_404(Cocktail, pk=cocktail_id)
-    if request.method == 'POST':
-        form = CocktailForm(request.POST, request.FILES, instance=cocktail)
-        if form.is_valid():
-            form.save()
-            return redirect('receipt_detail', receipt_id=cocktail.id)
-    else:
-        form = CocktailForm(instance=cocktail)
-    return render(request, "cocktail/add_recipe.html", {'form': form})
+def show_cocktail(request, cocktail_slug):
+    cocktail = Cocktail.objects.get(slug=cocktail_slug)
+    return render(request, 'cocktail/cocktail_detail.html', {'cocktail': cocktail})

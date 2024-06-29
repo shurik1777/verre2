@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}{{ cocktail.title }}{% endblock %}
+{% block content %}
+    <h1>{{ cocktail.title }}</h1>
+    <p>{{ cocktail.description }}</p>
+    <p>{{ cocktail.preparation_steps }}</p>
+    <p>{{ cocktail.preparation_time }}</p>
+    {% if cocktail.image %}
+        <img src="{{ cocktail.image.url }}" alt="{{ cocktail.title }}">
+    {% endif %}
+{% endblock %}
